@@ -6,6 +6,7 @@ const {
     addNewTour,
     updateTour,
     deleteTour,
+    topFiveCheapTours
 } = require('../controllers/tourController.js');
 
 
@@ -17,7 +18,7 @@ const tourRouter = express.Router();
 // if body contains the name and price properties
 // If not, return a 400 status code with an error message
 
-
+tourRouter.route('/top-5-cheap').get(topFiveCheapTours, getAllTours);
 
 tourRouter.route('/')
     .get(getAllTours)

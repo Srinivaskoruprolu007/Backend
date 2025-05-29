@@ -107,6 +107,13 @@ const getAllTours = async (req, res) => {
     }
 }
 
+const topFiveCheapTours = async (req, res, next) => {
+    req.query.limit = '5';
+    req.query.sort = '-ratingsAverage,price';
+    req.query.fields = 'name,price,difficulty,summary,ratingsAverage';
+    next();
+}
+
 const getTourById = async  (req, res) => {
     const id = req.params.id;
     // const tour = tours.find(t => t.id === id);
@@ -261,4 +268,5 @@ module.exports = {
     addNewTour,
     updateTour,
     deleteTour,
+    topFiveCheapTours
 }
