@@ -62,8 +62,22 @@ const getAllTours = async (req, res) => {
             query = query.select(fields);
             // select('name price')
         }
+        else {
+            query = query.select('-__v'); // Exclude __v field
+        }
 
+        // 5) PAGINATION
+        const page = req.query.page * 1 || 1; // Convert to number
+        const limit = req.query.limit * 1 || 10; // Convert to number
+        const skip = (page - 1) * limit; // Calculate skip value
+        query = query.skip(skip).limit(limit);
 
+        if(req.query.page) {
+            const numTours = await Tour.countDocuments();
+            if(skip >= numTours) {
+                throw new Error('This page does not exist');
+            }
+        }
         // const { duration, difficulty } = req.query
         // const tours = await Tour.find()
         // .where('duration')
