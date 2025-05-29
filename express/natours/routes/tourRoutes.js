@@ -6,7 +6,8 @@ const {
     addNewTour,
     updateTour,
     deleteTour,
-    topFiveCheapTours
+    topFiveCheapTours,
+    getTourStats
 } = require('../controllers/tourController.js');
 
 
@@ -19,6 +20,8 @@ const tourRouter = express.Router();
 // If not, return a 400 status code with an error message
 
 tourRouter.route('/top-5-cheap').get(topFiveCheapTours, getAllTours);
+
+tourRouter.route('/tourStats').get(getTourStats)
 
 tourRouter.route('/')
     .get(getAllTours)
