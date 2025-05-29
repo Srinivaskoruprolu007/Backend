@@ -1,0 +1,26 @@
+What is express
+Express is a node.js framework, a higher level of abstraction
+
+Express contains a very robust set of features: complex routing, easier handling 
+requests and responses, middleware, server-side renderings etc.
+
+Express allows for rapid development of node.js applications: we don't have to reinvent 
+the wheel
+
+Express makes it easier to organize our applications into the MVC architecture
+
+
+What is API 
+Application Programming interface; a piece of software that can be used by another 
+piece of software, in order to allow applications to talk to each other
+
+what is REST 
+Representational state transfer is an architecture for API to manage the business
+logic 
+
+-- Seperate API into logical resources
+-- Expose structured, resource-based URLs
+-- Use HTTP methods (verbs)
+-- Send data as JSON (usually)
+-- Be stateless
+
