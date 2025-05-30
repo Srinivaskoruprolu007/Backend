@@ -89,7 +89,10 @@ tourSchema.post('save', function (doc, next) {
   next();
 });
 
-tourSchema.pre('find', function () {});
+tourSchema.pre('find', function (next) {
+    this.find({secretTour : {$ne : true}})
+    next()
+});
 
 const Tour = mongoose.model('Tour', tourSchema);
 
