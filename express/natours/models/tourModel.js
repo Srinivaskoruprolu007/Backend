@@ -22,10 +22,10 @@ const tourSchema = new mongoose.Schema(
     difficulty: {
       type: String,
       required: [true, 'A tour must have a difficulty'],
-      enum:{ 
-      values:  ['easy', 'medium', 'difficult'],
-      message: 'Difficulty is either: easy, medium, difficult'
-    },
+      enum: {
+        values: ['easy', 'medium', 'difficult'],
+        message: 'Difficulty is either: easy, medium, difficult',
+      },
       default: 'easy',
     },
     ratingsAverage: {
@@ -48,7 +48,15 @@ const tourSchema = new mongoose.Schema(
       type: Number,
       required: [true, 'A tour must have a price'],
     },
-    priceDiscount: Number,
+    priceDiscount: {
+      type: Number,
+      validate: {
+        validator: function (val) {
+          return val < this.price;
+        },
+        message:"Price Discount ({VALUE}) should be less than the regular price"
+      },
+    },
     summary: {
       type: String,
       trim: true,
@@ -97,25 +105,25 @@ tourSchema.post('save', function (doc, next) {
 });
 
 tourSchema.pre(/^find/, function (next) {
-    this.find({secretTour : {$ne : true}})
-    this.start = Date.now();
-    next()
+  this.find({ secretTour: { $ne: true } });
+  this.start = Date.now();
+  next();
 });
 
 tourSchema.post(/^find/, function (docs, next) {
-    console.log(`Query took  ${Date.now() - this.start} milliseconds`);
-    next();
+  console.log(`Query took  ${Date.now() - this.start} milliseconds`);
+  next();
 });
 
 // Aggregation middleware
 
-tourSchema.pre('aggregate', function(next){
-    this.pipeline().unshift({
-        $match: {secretTour : {$ne : true} }
-    })
-    console.log(this.pipeline());
-    next()
-})
+tourSchema.pre('aggregate', function (next) {
+  this.pipeline().unshift({
+    $match: { secretTour: { $ne: true } },
+  });
+  console.log(this.pipeline());
+  next();
+});
 
 const Tour = mongoose.model('Tour', tourSchema);
 
