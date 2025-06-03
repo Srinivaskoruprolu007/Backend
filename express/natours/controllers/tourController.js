@@ -83,9 +83,9 @@ const getAllTours = async (req, res) => {
     // 5) EXECUTE QUERY
     const features = new APIFeatures(Tour.find(), req.query)
       .filter()
-      // .sorting()
-      // .fieldLimiting()
-      // .pagination();
+      .sorting()
+      .fieldLimiting()
+      .pagination();
     const tours = await features.query;
 
     // 6) SEND RESPONSE
