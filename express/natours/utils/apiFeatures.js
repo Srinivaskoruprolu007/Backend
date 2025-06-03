@@ -1,56 +1,48 @@
 class APIFeatures {
-    constructor(query, queryString){
+    constructor(query, queryString) {
         this.query = query;
         this.queryString = queryString;
     }
-    filter(){
+
+    filter() {
         const queryObj = { ...this.queryString };
-        
         const excludedFields = ['page', 'sort', 'limit', 'fields'];
         excludedFields.forEach(el => delete queryObj[el]);
-        console.log("before : ",queryObj);
-        
+
         let queryStr = JSON.stringify(queryObj);
         queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
 
-        this.query.find(JSON.parse(queryStr));
-
+        this.query = this.query.find(JSON.parse(queryStr));
         return this;
     }
-    sorting(){
-         if(this.queryString.sort) {
+
+    sorting() {
+        if (this.queryString.sort) {
             const sortBy = this.queryString.sort.split(',').join(' ');
             this.query = this.query.sort(sortBy);
-            // sort('price ratingsAverage')
-        }
-        else {
+        } else {
             this.query = this.query.sort('-createdAt');
         }
         return this;
     }
-    fieldLimiting(){
-        if(this.queryString.fields){
+
+    fieldLimiting() {
+        if (this.queryString.fields) {
             const fields = this.queryString.fields.split(',').join(' ');
             this.query = this.query.select(fields);
-            // select('name price')
-        }
-        else {
-            this.query = this.query.select('-__v'); // Exclude __v field
+        } else {
+            this.query = this.query.select('-__v');
         }
         return this;
     }
-    pagination(){
-        const page = this.queryString.page * 1 || 1; // Convert to number
-        const limit = this.queryString.limit * 1 || 10; // Convert to number
-        const skip = (page - 1) * limit; // Calculate skip value
+
+    pagination(totalDocs = null) {
+        const page = Number(this.queryString.page) || 1;
+        const limit = Number(this.queryString.limit) || 10;
+        const skip = (page - 1) * limit;
         this.query = this.query.skip(skip).limit(limit);
 
-        if(this.queryString.page) {
-            const numTours = Tour.countDocuments();
-            if(skip >= numTours) {
-                throw new Error('This page does not exist');
-            }
-        }
+        // Optionally, you can check for page overflow outside this class
         return this;
     }
 }
