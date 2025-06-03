@@ -1,6 +1,6 @@
-const fs = require('fs');
-const Tour = require('../models/tourModel.js');
-const APIFeatures = require('../utils/apiFeatures.js');
+import fs from 'fs';
+import Tour from '../models/tourModel.js';
+import APIFeatures from '../utils/apiFeatures.js';
 
 // const tours = JSON.parse(
 //     fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
@@ -270,21 +270,21 @@ const getTourStats = async (req, res) => {
       // 2) Group
       {
         $group: {
-          _id:{$toUpper: '$difficulty'},
-          numTours: {$sum: 1} ,
-          numRatings: {$sum : '$ratingsQuantity'},
+          _id: { $toUpper: '$difficulty' },
+          numTours: { $sum: 1 },
+          numRatings: { $sum: '$ratingsQuantity' },
           avgRating: { $avg: '$ratingsAverage' },
           avgPrice: { $avg: '$price' },
           minPrice: { $min: '$price' },
           maxPrice: { $max: '$price' },
         },
       },
-    //   3) SORT
+      //   3) SORT
       {
         $sort: {
-            avgPrice:-1
-        }
-      }
+          avgPrice: -1,
+        },
+      },
     ]);
     res.status(200).json({
       status: 'success',
@@ -300,69 +300,69 @@ const getTourStats = async (req, res) => {
 };
 
 const getMonthlyTours = async (req, res) => {
-    try {
-        const year = req.params.year * 1;
-        const monthlyTours = await Tour.aggregate([
-            {
-                $unwind:'$startDates'
-            }, 
-            {
-                $match:{
-                    startDates : {
-                        $gte : new Date(`${year}-01-01`), 
-                        $lte : new Date(`${year}-12-31`)
-                    }
-                }
-            },
-            {
-                $group:{
-                    _id: {
-                        $month : '$startDates'
-                    },
-                    numToursStart: {
-                        $sum : 1
-                    }, 
-                    tours: {
-                        $push:'$name'
-                    }
-                }
-            },
-            {
-                $addFields: {month : "$_id"}
-            },
-            {
-                $project: {
-                    _id:0
-                }
-            },
+  try {
+    const year = req.params.year * 1;
+    const monthlyTours = await Tour.aggregate([
+      {
+        $unwind: '$startDates',
+      },
+      {
+        $match: {
+          startDates: {
+            $gte: new Date(`${year}-01-01`),
+            $lte: new Date(`${year}-12-31`),
+          },
+        },
+      },
+      {
+        $group: {
+          _id: {
+            $month: '$startDates',
+          },
+          numToursStart: {
+            $sum: 1,
+          },
+          tours: {
+            $push: '$name',
+          },
+        },
+      },
+      {
+        $addFields: { month: '$_id' },
+      },
+      {
+        $project: {
+          _id: 0,
+        },
+      },
 
-            {
-                $sort:{
-                    month:1
-                }
-            }
-        ])
-        res.status(200).json({
-            status:"success",
-            data:{
-                monthlyTours
-            }
-        })
-    } catch (error) {
-        res.stats(400).json({
-            status:'fail',
-            message:error.message
-        })
-    }
-}
+      {
+        $sort: {
+          month: 1,
+        },
+      },
+    ]);
+    res.status(200).json({
+      status: 'success',
+      data: {
+        monthlyTours,
+      },
+    });
+  } catch (error) {
+    res.stats(400).json({
+      status: 'fail',
+      message: error.message,
+    });
+  }
+};
 
-module.exports = {
+export {
   getAllTours,
+  topFiveCheapTours,
   getTourById,
   addNewTour,
   updateTour,
   deleteTour,
-  topFiveCheapTours,
   getTourStats,
-  getMonthlyTours
+  getMonthlyTours,
 };
