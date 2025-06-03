@@ -1,6 +1,11 @@
 import mongoose from 'mongoose';
 import slugify from 'slugify';
 import validator from 'validator';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const tourSchema = new mongoose.Schema(
   {
