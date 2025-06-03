@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
-const { default: slugify } = require('slugify');
-const validator = require('validator')
+import mongoose from 'mongoose';
+import slugify from 'slugify';
+import validator from 'validator';
 
 const tourSchema = new mongoose.Schema(
   {
@@ -10,7 +10,7 @@ const tourSchema = new mongoose.Schema(
       unique: true,
       maxlength: [40, 'A tour name must have less or equal than 40 characters'],
       minlength: [10, 'A tour must have more or equal than 10 characters'],
-    //   validate :[ validator.isAlpha, "Name should only contain characters"]
+      //   validate :[ validator.isAlpha, "Name should only contain characters"]
     },
     slug: String,
     duration: {
@@ -56,7 +56,8 @@ const tourSchema = new mongoose.Schema(
         validator: function (val) {
           return val < this.price;
         },
-        message:"Price Discount ({VALUE}) should be less than the regular price"
+        message:
+          'Price Discount ({VALUE}) should be less than the regular price',
       },
     },
     summary: {
@@ -129,4 +130,4 @@ tourSchema.pre('aggregate', function (next) {
 
 const Tour = mongoose.model('Tour', tourSchema);
 
-module.exports = Tour;
+export default Tour;

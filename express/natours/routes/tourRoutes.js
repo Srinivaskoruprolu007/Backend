@@ -1,16 +1,15 @@
-const express = require('express');
-const fs = require('fs');
-const {
-    getAllTours,
-    getTourById,
-    addNewTour,
-    updateTour,
-    deleteTour,
-    topFiveCheapTours,
-    getTourStats,
-    getMonthlyTours
-} = require('../controllers/tourController.js');
-
+import express from 'express';
+import fs from 'fs';
+import {
+  getAllTours,
+  getTourById,
+  addNewTour,
+  updateTour,
+  deleteTour,
+  topFiveCheapTours,
+  getTourStats,
+  getMonthlyTours,
+} from '../controllers/tourController.js';
 
 const tourRouter = express.Router();
 
@@ -20,20 +19,14 @@ const tourRouter = express.Router();
 // if body contains the name and price properties
 // If not, return a 400 status code with an error message
 
-
-tourRouter.route('/tourStats').get(getTourStats)
+tourRouter.route('/tourStats').get(getTourStats);
 
 tourRouter.route('/top-5-cheap').get(topFiveCheapTours, getAllTours);
 
-tourRouter.route('/getMonthlyTours/:year').get(getMonthlyTours)
+tourRouter.route('/getMonthlyTours/:year').get(getMonthlyTours);
 
-tourRouter.route('/')
-    .get(getAllTours)
-    .post( addNewTour);
+tourRouter.route('/').get(getAllTours).post(addNewTour);
 
-tourRouter.route('/:id')
-    .get(getTourById)
-    .patch(updateTour)
-    .delete(deleteTour);
+tourRouter.route('/:id').get(getTourById).patch(updateTour).delete(deleteTour);
 
-module.exports = tourRouter;
+export default tourRouter;
