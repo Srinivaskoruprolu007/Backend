@@ -1,10 +1,15 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import fs from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
 dotenv.config({ path: './config.env' });
 
 import Tour from '../../models/tourModel.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const DB = process.env.CONNECTION_STRING;
 mongoose
