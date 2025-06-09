@@ -3,8 +3,10 @@ import express from 'express';
 import morgan from 'morgan';
 import tourRouter from './routes/tourRoutes.js';
 import userRouter from './routes/userRoutes.js';
+import AppError from './utils/appError.js';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import { errorHandler } from './controllers/errorController.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -63,25 +65,14 @@ app.all('*', (req, res, next) => {
 //     message: `can't find ${req.originalUrl} on this server`,
 //   });
 
-    const err = new Error(`Can't find ${req.originalUrl} on this server!`)
-    err.status = 'fail'
-    err.statusCode = 400
-    next(err)
+    // const err = new Error(`Can't find ${req.originalUrl} on this server!`)
+    // err.status = 'fail'
+    // err.statusCode = 400
+
+    next(new AppError(`Can't find ${req.originalUrl} on this server`, ))
 });
 
-app.use((err, req, res, next) => {
-    err.statusCode = err.statusCode || 500;
-    err.status = err.status || 'error';
-
-    res.status(err.statusCode).json({
-        status : err.status,
-        message : err.message
-
-    })
-
-
-    res.status()
-} )
+app.use(errorHandler)
 
 
 // 4) Start the server
