@@ -3,6 +3,7 @@ import APIFeatures from '../utils/apiFeatures.js';
 import catchAsync from '../utils/catchAsync.js';
 
 // Controller for handling all tour-related operations
+// Includes CRUD operations, statistics, and monthly plans for tours
 
 // Get all tours with filtering, sorting, field limiting, and pagination
 const getAllTours = catchAsync(async (req, res) => {
