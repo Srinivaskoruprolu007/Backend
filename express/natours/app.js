@@ -1,4 +1,3 @@
-import fs from 'fs';
 import express from 'express';
 import morgan from 'morgan';
 import tourRouter from './routes/tourRoutes.js';
