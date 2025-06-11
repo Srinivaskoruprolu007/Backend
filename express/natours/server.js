@@ -1,5 +1,10 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+process.on('uncaughtException', (err) => {
+  console.log('UNCAUGHT EXCEPTION!!! 💥 shutting downnn');
+  console.log(err.name, err.message);
+  process.exit(1);
+});
 dotenv.config({ path: './config.env' });
 import app from './app.js';
 
@@ -23,10 +28,3 @@ process.on('unhandledRejection', (err) => {
   });
 });
 
-process.on('uncaughtException', err => {
-  console.log(err.name, err.message);
-  console.log('UNCAUGHT EXCEPTION!!! 💥 shutting downnn');
-  server.close(() => {
-    process.exit(1);
-  });
-})
