@@ -6,12 +6,12 @@ import {
   updateUser,
   deleteUser,
 } from '../controllers/userController.js';
-import { singup } from '../controllers/authController.js';
+import { login, singup } from '../controllers/authController.js';
 
 const userRouter = express.Router();
 
-
 userRouter.post('/signup', singup);
+userRouter.post('/login', login);
 
 userRouter.route('/').get(getAllUsers).post(addNewUser);
 
