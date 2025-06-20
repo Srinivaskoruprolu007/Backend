@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 import validator from 'validator';
+import bcrypt from 'bcryptjs';
+
 // TODO : create a schema with name, email, photo, password, passwordConfirm
 
 const userSChema = new mongoose.Schema({
@@ -23,7 +25,22 @@ const userSChema = new mongoose.Schema({
   passwordConfirm: {
     type: String,
     require: [true, 'Please confrim your password'],
+    validate: {
+      // this only works on CREATE and SAVE;
+      validator: function (el) {
+        return el === this.password;
+      },
+      message: "The password is doesn't match",
+    },
   },
+});
+
+userSChema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next();
+
+  this.password = await bcrypt.hash(this.password, 12);
+  this.passwordConfirm = undefined;
+  next()
 });
 
 const User = mongoose.model('User', userSChema);

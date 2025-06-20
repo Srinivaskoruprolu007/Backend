@@ -1,5 +1,4 @@
 import express from 'express';
-import fs from 'fs';
 import {
   getAllUsers,
   getUserById,
@@ -7,8 +6,12 @@ import {
   updateUser,
   deleteUser,
 } from '../controllers/userController.js';
+import { singup } from '../controllers/authController.js';
 
 const userRouter = express.Router();
+
+
+userRouter.post('/signup', singup);
 
 userRouter.route('/').get(getAllUsers).post(addNewUser);
 

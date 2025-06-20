@@ -1,14 +1,12 @@
-import User from '../models/userModel';
-import catchAsync from '../utils/catchAsync';
+import User from '../models/userModel.js';
+import catchAsync from '../utils/catchAsync.js';
 
-const singup = catchAsync(async (req, res, next) => {
+export const singup = catchAsync(async (req, res, next) => {
   const newUser = await User.create(req.body);
-
   res.status(201).json({
     status: 'success',
     data: {
       user: newUser,
     },
   });
-  next();
 });
