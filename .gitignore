@@ -142,3 +142,8 @@ dist
 .svelte-kit
 
 # End of https://www.toptal.com/developers/gitignore/api/node
+adv-js/event-loop.js
+adv-js/events.js
+adv-js/fs-module.js
+my-backend-app/src/index.js
+my-backend-app/src/index.js
