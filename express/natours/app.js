@@ -3,6 +3,8 @@ import morgan from 'morgan';
 import tourRouter from './routes/tourRoutes.js';
 import userRouter from './routes/userRoutes.js';
 import AppError from './utils/appError.js';
+import dotenv from 'dotenv';
+dotenv.config({ path: './config.env' });
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import { errorHandler } from './controllers/errorController.js';
@@ -11,7 +13,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
-
 
 
 if (process.env.NODE_ENV === 'development') {

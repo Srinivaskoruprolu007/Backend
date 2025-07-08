@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+dotenv.config({ path: './config.env' });
 process.on('uncaughtException', (err) => {
   console.log('UNCAUGHT EXCEPTION!!! 💥 shutting downnn');
   console.log(err.name, err.message);
   process.exit(1);
 });
-dotenv.config({ path: './config.env' });
 import app from './app.js';
 
 const PORT = process.env.PORT;
