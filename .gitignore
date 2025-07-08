@@ -82,6 +82,7 @@ web_modules/
 .env.test.local
 .env.production.local
 .env.local
+*.env
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -147,3 +148,4 @@ adv-js/events.js
 adv-js/fs-module.js
 my-backend-app/src/index.js
 my-backend-app/src/index.js
+express/natours/config.env
