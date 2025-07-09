@@ -16,6 +16,7 @@ export const singup = catchAsync(async (req, res, next) => {
     email: req.body.email,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
+    role: req.body.role,
   });
   const token = signToken(newUser._id);
   res.status(201).json({
@@ -88,3 +89,5 @@ export const protect = catchAsync(async (req, res, next) => {
   req.user = freshUser;
   next();
 });
+
+export const restrictTo = catchAsync(async (req, res, next) => {});
