@@ -32,8 +32,6 @@ tourRouter
   .route('/:id')
   .get(getTourById)
   .patch(updateTour)
-  .delete(protect,
-    //  restrictTo('admin'), 
-     deleteTour);
+  .delete(protect, restrictTo('admin', 'lead-guide'), deleteTour);
 
 export default tourRouter;
